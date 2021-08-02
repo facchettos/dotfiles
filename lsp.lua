@@ -49,10 +49,25 @@ local on_attach = function(client, bufnr)
 
 end
 
-require'lspconfig'.gopls.setup{on_attach=on_attach}
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
+require'lspconfig'.gopls.setup{
+    on_attach=on_attach,
+    capabilities = capabilities,
+}
+
 require'lspconfig'.yamlls.setup{}
-require'lspconfig'.bashls.setup{}
+require'lspconfig'.bashls.setup{on_attach=on_attach}
 require'lspconfig'.solargraph.setup{on_attach=require'completion'.on_attach}
+
 require'lspconfig'.jsonls.setup {
     commands = {
       Format = {
@@ -60,8 +75,9 @@ require'lspconfig'.jsonls.setup {
           vim.lsp.buf.range_formatting({},{0,0},{vim.fn.line("$"),0})
         end
       }
-    }
+    },
 }
+
 
 local signs = { Error = "😡", Warning = "⚠️", Hint = "H", Information = "I" }
 

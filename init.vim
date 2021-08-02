@@ -26,30 +26,6 @@ luafile ~/.config/nvim/tree-sitter.lua
 
 let g:terraform_fmt_on_save=1
 
-
-function! Formatonsave()
-    execute "FormatCode"
-endfunction
-
-
-function! Formatonsavee()
-  let l:formatdiff = 1
-  pyf ~/clang-format.py
-endfunction
-"autocmd BufWritePre *.h,*.cc,*.cpp call Formatonsave()
-
-
 autocmd InsertEnter,InsertLeave * set cul!
-autocmd BufWritePre *.h,*.cc,*.cpp,*.java call Formatonsave()
 autocmd BufWritePre *.go :GoImports
-
-
-
-"function! s:check_back_space() abort
-"  let col = col('.') - 1
-"  return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
-"autocmd BufWritePre *.h,*.cc,*.cpp call Formatonsave()
-
-
-
+autocmd BufWritePre *.cc,*.c,*.cpp,*.h,*.rs,*.rb,*.json,*.yaml lua vim.lsp.buf.formatting()
