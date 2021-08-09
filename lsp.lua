@@ -34,12 +34,14 @@ local on_attach = function(client, bufnr)
   end
 
   -- Set autocommands conditional on server_capabilities
+  --      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+  --      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+  --      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+  -- 
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
       augroup lsp_document_highlight
+
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
@@ -59,13 +61,26 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
+require('lualine').setup{
+    options = {
+        theme = 'molokai' ,
+        component_separators = {'|','|'},
+        section_separators = {' ', ' '},
+    },
+}
+
 require'lspconfig'.gopls.setup{
     on_attach=on_attach,
     capabilities = capabilities,
 }
 
 require'lspconfig'.yamlls.setup{}
-require'lspconfig'.bashls.setup{on_attach=on_attach}
+require'lspconfig'.bashls.setup{
+    on_attach=on_attach,
+    capabilities = capabilities,
+}
+
+
 require'lspconfig'.solargraph.setup{on_attach=require'completion'.on_attach}
 
 require'lspconfig'.jsonls.setup {
@@ -85,3 +100,7 @@ for type, icon in pairs(signs) do
   local hl = "LspDiagnosticsSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = "GitGutterAdd", numhl = "" })
 end
+
+
+vim.opt.termguicolors = true
+require("bufferline").setup{}

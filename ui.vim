@@ -89,8 +89,6 @@ if has('python3')
 endif
 set background=dark
 
-colorscheme molokai
-
 
 " Terminal stuff
 command Termv :vsplit | terminal
@@ -104,11 +102,6 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 
-function! ToggleColor()
-    let &background = ( &background == "dark"? "light" : "dark" )
-    execute "colorscheme " .(&background=="dark"? "space_vim_theme" : "greent")
-endfunction
-
-"map <f12> :execute ToggleColor() <CR>
-
 cnoreabbrev W w
+
+colorscheme sonokai
