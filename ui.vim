@@ -104,4 +104,5 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 cnoreabbrev W w
 
-colorscheme sonokai
+let g:material_style = 'deep ocean' 
+colorscheme material
