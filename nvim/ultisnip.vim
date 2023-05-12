@@ -1,4 +1,4 @@
-let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsExpandTrigger="<CR>"
 let g:UltiSnipsEditSplit="vertical"
 
 set completeopt=menuone,noselect
@@ -29,3 +29,12 @@ let g:compe.source.luasnip = v:true
 let g:compe.source.emoji = v:true
 
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+
+
+" Expand
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
